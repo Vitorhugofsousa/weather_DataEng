@@ -9,7 +9,7 @@ base_path = Path(__file__).resolve().parent.parent
 src_path = (base_path / 'src')
 if src_path not in sys.path:
     sys.path.append(str(src_path))
-from etl_combined import extract_weather_data, data_transformation, load_data
+from etl_combined import extract_weather_data, data_transformation, load_data # type: ignore
 
 # Tenta o caminho relativo primeiro, depois um caminho absoluto fixo do Docker
 env_path = Path(__file__).resolve().parent.parent / 'config' / '.env'
