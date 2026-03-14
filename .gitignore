@@ -12,3 +12,6 @@ plugins
 *.tfstate
 *.tfstate.backup
 .terraform.lock.hcl
+
+.tests/
+*__pycache__/
