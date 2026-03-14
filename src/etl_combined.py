@@ -135,7 +135,7 @@ def normalize_date_columns(df: pd.DataFrame, columns_names:list[str]) -> pd.Data
     return df
 
 
-def data_transformation():
+def data_transformation(data):
     print("Starting data transformation...")
     df = create_dataframe(path_name)
     df = normalize_weather_columns(df) 
@@ -153,33 +153,32 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(
 
      
 if "__file__" in globals():
-    # Contexto: Script .py (Airflow / Docker)
+    # to run in script
     project_root = Path(__file__).resolve().parent.parent
 else:
-    # Contexto: Jupyter Notebook (.ipynb)
-    # No notebook, Path.cwd() geralmente é a pasta onde o .ipynb está
+    # change for notebook
     project_root = Path.cwd().parent
 
-# 2. Define o caminho do .env baseado na raiz
+# 2. define .env path based on root
 env_path = project_root / 'config' / '.env'
 
-# 3. Log de segurança (ajuda muito no Airflow)
+# 3. security log
 if env_path.exists():
     load_dotenv(dotenv_path=env_path)
     print(f"✅ .env carregado de: {env_path}")
 else:
-    # Fallback para Docker Airflow (caso a estrutura mude)
+    # Fallback path where Docker Compose maps the config
     fallback_path = Path('/opt/airflow/config/.env')
     if fallback_path.exists():
         load_dotenv(dotenv_path=fallback_path)
-        print(f"✅ .env carregado via Fallback Docker: {fallback_path}")
+        print(f"✅ .env loaded by Docker Fallback: {fallback_path}")
     else:
-        print(f"❌ Erro: Arquivo .env não encontrado em {env_path}")
+        print(f"❌ Erro: .env archive dont exist in {env_path}")
 
-user = os.getenv("user") or "postgres"
-password = str(os.getenv("password") or "")
-database = os.getenv("database") or "postgres"
-host = os.getenv("host") or "postgres"
+user = os.getenv("user") 
+password = str(os.getenv("password") or "") 
+database = os.getenv("database") 
+host = os.getenv("host")
 
 def get_engine():
         logging.info(f"Connecting to the database {database} at {host} with user {user}.")
@@ -194,4 +193,3 @@ def load_data(table_name:str, df):
         df_check = pd.read_sql(text(f"SELECT * FROM {table_name}"), con=engine)
         logging.info(f"Data in {table_name} table:{len(df_check)}\n")
 
-print(user, password, database, host)
