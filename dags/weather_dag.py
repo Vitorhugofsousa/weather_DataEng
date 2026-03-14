@@ -11,11 +11,11 @@ if src_path not in sys.path:
     sys.path.append(str(src_path))
 from etl_combined import extract_weather_data, data_transformation, load_data # type: ignore
 
-# Tenta o caminho relativo primeiro, depois um caminho absoluto fixo do Docker
+# Try the Relative Path first, then a fixed absolute path for Docker
 env_path = Path(__file__).resolve().parent.parent / 'config' / '.env'
 
 if not env_path.exists():
-    # Caminho padrão onde o Docker Compose mapeia o config
+    # Default path where Docker Compose maps the config
     env_path = Path('/opt/airflow/config/.env')
 
 load_dotenv(dotenv_path=env_path)

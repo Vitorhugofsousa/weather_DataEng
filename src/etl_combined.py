@@ -177,7 +177,7 @@ else:
         print(f"❌ Erro: Arquivo .env não encontrado em {env_path}")
 
 user = os.getenv("user") or "postgres"
-password = str(os.getenv("password") or "") # O segredo está aqui
+password = str(os.getenv("password") or "")
 database = os.getenv("database") or "postgres"
 host = os.getenv("host") or "postgres"
 
