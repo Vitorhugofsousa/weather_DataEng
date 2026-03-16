@@ -165,7 +165,7 @@ env_path = project_root / 'config' / '.env'
 # 3. security log
 if env_path.exists():
     load_dotenv(dotenv_path=env_path)
-    print(f"✅ .env carregado de: {env_path}")
+    print(f"✅ .env loaded from: {env_path}")
 else:
     # Fallback path where Docker Compose maps the config
     fallback_path = Path('/opt/airflow/config/.env')
@@ -173,7 +173,7 @@ else:
         load_dotenv(dotenv_path=fallback_path)
         print(f"✅ .env loaded by Docker Fallback: {fallback_path}")
     else:
-        print(f"❌ Erro: .env archive dont exist in {env_path}")
+        print(f"❌ Error: .env file does not exist in {env_path}")
 
 user = os.getenv("user") 
 password = str(os.getenv("password") or "") 
