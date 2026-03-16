@@ -29,17 +29,22 @@ resource "docker_network" "weather_net" {
 
 resource "docker_container" "postgres_db" {
   name  = "weather_postgres"
-  image = "postgres:18"
+  image = "postgres:15"
   networks_advanced { name = docker_network.weather_net.name }
-  
   env = [
     "POSTGRES_USER=${local.envs["user"]}",
     "POSTGRES_PASSWORD=${local.envs["password"]}",
     "POSTGRES_DB=${local.envs["database"]}"
   ]
+}
+
+resource "docker_container" "weather_dashboard" {
+  name  = "weather_dashboard"
+  image = "weather_dashboard:latest" # Você precisará dar um 'docker build' antes
+  networks_advanced { name = docker_network.weather_net.name }
   
   ports {
-    internal = 5432
-    external = 5444 # Mantemos 5444 para evitar o conflito com seu Postgres local
+    internal = 8501
+    external = 8501
   }
 }
