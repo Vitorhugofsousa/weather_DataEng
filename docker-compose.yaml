@@ -74,6 +74,8 @@ x-airflow-common:
     _PIP_ADDITIONAL_REQUIREMENTS: ${_PIP_ADDITIONAL_REQUIREMENTS:-}
     # The following line can be used to set a custom config file, stored in the local config folder
     AIRFLOW_CONFIG: '/opt/airflow/config/airflow.cfg'
+  networks:
+    - weather_net
   volumes:
     - ${AIRFLOW_PROJ_DIR:-.}/config:/opt/airflow/config
     - ${AIRFLOW_PROJ_DIR:-.}/dags:/opt/airflow/dags
@@ -90,20 +92,40 @@ x-airflow-common:
       condition: service_healthy
 
 services:
+  airflow-webserver:
+    <<: *airflow-common
+    command: webserver
+    ports:
+      - "8080:8080"
+    healthcheck:
+      test: ["CMD", "curl", "--fail", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
+    restart: always
+    depends_on:
+      <<: *airflow-common-depends-on
+      airflow-init:
+        condition: service_completed_successfully
+
   postgres:
-    image: postgres:16
+    image: postgres:18
     environment:
       POSTGRES_USER: airflow
       POSTGRES_PASSWORD: airflow
       POSTGRES_DB: airflow
     volumes:
-      - postgres-db-volume:/var/lib/postgresql/data
+      - postgres-db-volume:/var/lib/postgresql
+    networks:
+      - weather_net
     healthcheck:
       test: ["CMD", "pg_isready", "-U", "airflow"]
       interval: 10s
       retries: 5
       start_period: 5s
     restart: always
+    
 
   redis:
     # Redis is limited to 7.2-bookworm due to licencing change
@@ -111,6 +133,8 @@ services:
     image: redis:7.2-bookworm
     expose:
       - 6379
+    networks:
+      - weather_net
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]
       interval: 10s
@@ -123,7 +147,7 @@ services:
     <<: *airflow-common
     command: api-server
     ports:
-      - "8080:8080"
+      - "8081:8080"
     healthcheck:
       test: ["CMD", "curl", "--fail", "http://localhost:8080/api/v2/version"]
       interval: 30s
@@ -150,6 +174,8 @@ services:
       <<: *airflow-common-depends-on
       airflow-init:
         condition: service_completed_successfully
+    networks:
+      - weather_net
 
   airflow-dag-processor:
     <<: *airflow-common
@@ -190,6 +216,8 @@ services:
         condition: service_healthy
       airflow-init:
         condition: service_completed_successfully
+    networks:
+      - weather_net
 
   airflow-triggerer:
     <<: *airflow-common
@@ -335,10 +363,10 @@ services:
       airflow-init:
         condition: service_completed_successfully
 
-networks:
-  default:
-    external: true
-    name: weather_network
-
 volumes:
   postgres-db-volume:
+
+networks:
+  weather_net:
+    external: true
+    name: weather_network

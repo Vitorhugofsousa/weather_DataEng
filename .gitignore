@@ -1,5 +1,8 @@
 config
+postgres_data/
 data
+logs
+plugins
 commands.txt
 .env
 src/__pycache__
