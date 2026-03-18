@@ -1,0 +1,19 @@
+# Extração e API
+requests
+
+# Processamento de Dados
+pandas
+pyarrow
+
+# Banco de Dados
+psycopg2-binary
+sqlalchemy
+
+# Dashboard
+streamlit
+
+# Utilidades
+python-dotenv
+
+# Testes
+pytest
