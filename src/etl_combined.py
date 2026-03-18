@@ -175,10 +175,10 @@ else:
     else:
         print(f"❌ Error: .env file does not exist in {env_path}")
 
-user = os.getenv("user") 
-password = str(os.getenv("password") or "") 
-database = os.getenv("database") 
-host = os.getenv("host")
+user = os.getenv("user").strip("'\"") 
+password = str(os.getenv("password") or "").strip("'\"")
+database = os.getenv("database").strip("'\"")
+host = os.getenv("host").strip("'\"")
 
 def get_engine():
         logging.info(f"Connecting to the database {database} at {host} with user {user}.")
