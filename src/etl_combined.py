@@ -84,10 +84,6 @@ def extract_weather_data(start_date="2025-12-21", end_date="2026-03-17"):
 
 # export
 ## Transform data functions
-import pandas as pd
-import logging
-from pathlib import Path
-
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 if "__file__" in globals():

@@ -1,19 +1,19 @@
-# Extração e API
+# Extraction and API
 requests
 
-# Processamento de Dados
+# data processing
 pandas
 pyarrow
 
-# Banco de Dados
+# database
 psycopg2-binary
 sqlalchemy
 
 # Dashboard
 streamlit
 
-# Utilidades
+# Utilities
 python-dotenv
 
-# Testes
+# Tests
 pytest
