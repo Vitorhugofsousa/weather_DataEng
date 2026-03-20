@@ -32,3 +32,35 @@ The pipeline automates the collection of historical weather data (temperature, p
 ├── Dockerfile           # Custom Airflow image definition
 ├── requirements.txt     # Python dependencies
 └── pyproject.toml       # Project metadata and tool configuration
+```
+
+## ⚙️ Getting Started
+Prerequisites
+ - Docker & Docker Compose installed.
+ - Terraform installed.
+ - Python installed.
+ - Postgres 18 installed.
+ - An IDE from your  preference.
+
+
+### 1. Infrastructure Provisioning for setup
+Before starting the services, use Terraform to set up the necessary network and volume structures.
+
+in bash use the following commands:
+
+```text
+ - cd terraform
+ - terraform init
+ - terraform apply
+```
+### 2. After Environment Setup
+Create a .env file inside the config/ directory. Use the following template:
+
+Snippet de código 
+```text
+user=your_db_username
+password=your_db_password
+database=weather_data
+host=host.docker.internal
+```
+
