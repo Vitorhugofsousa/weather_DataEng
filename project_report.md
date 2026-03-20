@@ -4,6 +4,7 @@ Esse projeto foi desenvolvido com o objetivo de exercitar habilidades técnicas 
 ### O que o projeto faz?
 Através de uma pipeline ETL, é efetuada uma extração de dados em massa da API da Open-Meteo contendo diversos dados climaticos. A definição do escopo foi extrair os dados climáticos de todas as capitais brasileiras de hora em hora durante o verão de 2025/2026 para tornar possível uma comparação direta entre as capitais e identificar diferenças de fluxos e comparar o desenvolvimento de temperatura durante a estação.
 Deste modo, desenvolvi um Python notebook para fazer todo o processo de ETL de ponta a ponta, extraindo da API, fazendo todas as transformações necessárias para normalizar os dados e ingerindo na database, possibilitando o consumo pelo dashboard com o streamlit.
+<img width="1024" height="559" alt="image" src="https://github.com/user-attachments/assets/293b294d-c6e5-47ff-b877-7ae824c8a1e7" />
 
  ## Arquitetura e Capacidade Técnica
 A solução foi desenhada para ser totalmente reprodutível e isolada, utilizando as melhores práticas de mercado:
